@@ -39,4 +39,4 @@ For secrets, run Gitleaks 8.30.1 or a reviewed newer version against the exact s
 - CI must only test/build/scan; no deployment, credentials or real agent execution.
 - Public-repository setup does not authorize spending on additional agents or starting scheduled work.
 
-A license has not been selected. Do not add one on behalf of the owner.
+The owner approved the [MIT license](LICENSE). Preserve the license notice and respect third-party licenses. Any change of license requires separate owner approval.

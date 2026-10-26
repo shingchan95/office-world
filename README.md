@@ -88,4 +88,6 @@ Browser tests use explicitly synthetic team fixtures, an ephemeral loopback serv
 
 This repository is a new source-only snapshot, not a dump of the running server or its history. It excludes real team registries, profile data, meetings, credentials, sessions, logs, screenshots, installed dependencies, build output, certificates, and deployment-specific configuration. See [SECURITY.md](SECURITY.md) and the [publication report](docs/PUBLICATION_REPORT.md).
 
-No open-source license has been selected yet; public visibility alone is not an unrestricted reuse grant.
+## License
+
+[MIT](LICENSE), approved by the repository owner. Third-party dependencies retain their own licenses. Open-source licensing does not imply production readiness.

@@ -24,7 +24,7 @@ The original publication report remains a historical account of the initial sour
 
 ## Deferred decisions/work
 
-- The owner must choose a license before this is presented as a generally reusable open-source release.
+- License decision resolved: the owner approved [MIT](../LICENSE). The repository foundation is complete; this is not a production release.
 - Existing activation may still change the lead's Kanban toolset; fixing it is the first future functional milestone, not part of this maintenance change.
 - Guided installation, supported-version validation, real activity integration and production readiness remain unfinished.
 - No team development start is scheduled. Feature work and dispatch wait for the owner's authorization.
