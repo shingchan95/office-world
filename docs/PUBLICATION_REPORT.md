@@ -37,4 +37,4 @@ The visual draft is approved. Real agent work-state integration, broader movemen
 
 Suggested next phase: preserve a reproducible baseline, define authoritative activity-state contracts, then implement and review small end-to-end increments. The existing frontend/backend/operations team is sufficient initially; request more specialists only for a concrete gap.
 
-No open-source license has been selected. Public availability does not itself grant an unrestricted license.
+At initial publication no license had been selected. The owner subsequently approved the [MIT license](../LICENSE); that decision is now reflected in the repository.
