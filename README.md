@@ -12,10 +12,25 @@ An approved visual draft and local Office team-management prototype for Hermes A
 
 This is **not a production-ready service**. Design approval does not imply security approval or verified live-agent state integration. No production rollout is scheduled here.
 
+**Agent-settings caveat:** the current lifecycle prototype can change the lead's Kanban toolset configuration. It does not yet meet the required zero-agent-settings-change contract. Read [the contract](docs/AGENT_SETTINGS_CONTRACT.md) before activation; replacing this behavior is a future release blocker, not part of repository setup.
+
+## Repository status
+
+Repository setup is the current phase. See [CONTRIBUTING.md](CONTRIBUTING.md), [AGENTS.md](AGENTS.md), the [roadmap](docs/ROADMAP.md), and the [repository setup report](docs/REPOSITORY_SETUP.md). The primary product goal is a safe, reproducible install around an existing Hermes installation—not just the visualization. Installation automation and fresh-install compatibility verification remain unfinished.
+
+To obtain the source:
+
+```sh
+git clone https://github.com/shingchan95/office-world.git
+cd office-world
+```
+
+The local commands below are manual prototype setup, not a claim of one-click onboarding. Nothing in repository maintenance starts real agents or changes the running installation.
+
 ## Requirements
 
 - Python 3.10+.
-- Node.js 22.12+; the frontend tests importing TypeScript directly are verified on Node.js 26.
+- Node.js 26.x, pinned in `.node-version`. Both builds and direct-TypeScript-import tests use this runtime.
 - A local Hermes installation for actual profile discovery and team lifecycle operations.
 - Chrome/Chromium for optional browser checks. Set `CHROME_PATH` if Chrome is not at the harness default path.
 
