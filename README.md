@@ -29,7 +29,7 @@ The local commands below are manual prototype setup, not a claim of one-click on
 
 ## Requirements
 
-- Python 3.10+.
+- Python 3.11+ (the meeting store requires `sqlite3.Connection.setlimit`).
 - Node.js 26.x, pinned in `.node-version`. Both builds and direct-TypeScript-import tests use this runtime.
 - A local Hermes installation for actual profile discovery and team lifecycle operations.
 - Chrome/Chromium for optional browser checks. Set `CHROME_PATH` if Chrome is not at the harness default path.

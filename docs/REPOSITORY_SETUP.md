@@ -11,6 +11,7 @@ This change establishes repository rules, setup documentation, check definitions
 - `docs/AGENT_SETTINGS_CONTRACT.md`: release-blocking requirement to preserve existing agent settings; current lifecycle mutation is explicitly disclosed, not silently declared fixed.
 - `docs/ROADMAP.md`: repository setup before onboarding, task execution, live activity and production work.
 - `.node-version` / package engines: Node 26.x for both build and direct-TypeScript tests.
+- Corrected Python minimum to 3.11 after hosted tests exposed the meeting store's use of `sqlite3.Connection.setlimit`, which is absent in Python 3.10. No application behavior was changed to conceal the incompatibility.
 - Privacy guard and regression tests: inspect the exact tracked index for forbidden runtime artifacts and high-confidence leak patterns; findings never echo matching values.
 - Public-safe bug report and pull-request templates.
 - GitHub Actions check definition: read-only repository permission, SHA-pinned actions, full-history secret scanning with a checksum-verified scanner, backend tests and frontend/browser tests. It contains no deployment or real-agent execution step.

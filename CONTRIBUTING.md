@@ -4,7 +4,7 @@ Read [AGENTS.md](AGENTS.md) and [the agent-settings contract](docs/AGENT_SETTING
 
 ## Toolchain
 
-- Python 3.10+; the CI definition tests 3.10 and 3.14 on Ubuntu.
+- Python 3.11+; the CI definition tests 3.11 and 3.14 on Ubuntu. Python 3.10 is unsupported because its SQLite connection lacks the limits API used by the meeting store.
 - Node.js 26.x (see `.node-version`). Direct TypeScript imports in tests require the supported Node runtime, not just Vite's minimum Node version.
 - npm using the committed lockfile (`npm ci`).
 - Chrome/Chromium for browser checks; set `CHROME_PATH` when needed.
