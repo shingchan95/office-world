@@ -1,0 +1,19 @@
+# Local-only example. Run from the repository root.
+# Start backend with OFFICE_ALLOWED_ORIGIN=http://localhost:8443.
+{
+ admin off
+ auto_https off
+}
+http://localhost:8443 {
+ bind 127.0.0.1
+ redir /design /design/ 308
+ handle_path /design/* {
+  root * ./frontend/dist
+  file_server
+ }
+ handle {
+  reverse_proxy 127.0.0.1:8765 {
+   header_up Host 127.0.0.1:8765
+  }
+ }
+}

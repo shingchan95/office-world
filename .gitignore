@@ -1,0 +1,57 @@
+# Runtime/user data: never commit
+.env
+.env.*
+!.env.example
+data/
+state/
+profiles/
+memories/
+cron/
+logs/
+backups/
+*.log
+*.sqlite
+*.sqlite3
+*.sqlite-*
+*.db
+*.db-*
+auth.json
+access.txt
+*credentials*
+*session*.json
+*.pem
+*.key
+*.p12
+*.pfx
+*.crt
+*.cer
+id_rsa*
+id_ed25519*
+
+# Dependencies, build and cache output
+node_modules/
+dist/
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.coverage
+htmlcov/
+coverage/
+.tmp/
+.DS_Store
+
+# Screenshots can contain private team/member information
+*.png
+*.jpg
+*.jpeg
+*.webp
+*.gif
+*.mp4
+*.har
+
+# Editors / per-machine configuration
+.idea/
+.vscode/
+*.local.json

@@ -1,0 +1,58 @@
+/* The scene owns its space; controls never sit over the mobile viewport. */
+#root > .office-world { width: 100%; height: 100dvh; }
+.office-world { display: grid; grid-template-rows: auto minmax(0, 1fr) auto; overflow: hidden; }
+.draft-header { display: grid; grid-template-columns: 1fr auto; gap: 0 12px; align-items: center; padding: max(8px, env(safe-area-inset-top)) 12px 8px; background: var(--panel); border-bottom: 1px solid var(--line); }
+.back-to-teams { color: var(--accent-light); font-size: 12px; display: inline-flex; align-items: center; min-height: 44px; width: fit-content; }
+.draft-label { grid-column: 1 / -1; grid-row: 2; color: var(--muted); font-size: 11px; line-height: 1.5; }
+.menu-button { grid-column: 2; grid-row: 1; }
+.office-world button { min-height: 44px; min-width: 44px; }
+.office-world button:focus-visible, .office-world a:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+.menu-button, .time-controls > button { border: 1px solid var(--line); border-radius: 6px; padding: 0 10px; background: var(--panel); font-size: 12px; }
+.scene-space { min-height: 0; min-width: 0; overflow: hidden; position: relative; background: #bcced4; }
+.scene-toolbar { display: flex; flex-wrap:wrap; align-items: center; justify-content: space-between; gap: 8px; padding: 8px 12px max(8px, env(safe-area-inset-bottom)); background: var(--panel); border-top: 1px solid var(--line); z-index: 2; }
+.time-controls { display: flex; gap: 4px; position: relative; }
+.time-settings { position: absolute; bottom: calc(100% + 12px); left: 0; width: min(280px, calc(100vw - 24px)); display: grid; gap: 8px; padding: 16px; border: 1px solid var(--line); border-radius: 8px; background: var(--panel); box-shadow: 0 4px 20px #0005; font-size: 12px; }
+.time-settings input { width: 100%; min-height: 44px; accent-color: var(--accent); }
+.time-settings span { font-size: 11px; color: var(--muted); }
+.sidebar-layer { position: fixed; inset: 0; z-index: 20; }
+.sidebar-backdrop { position: absolute; inset: 0; width: 100%; background: #0007; }
+.design-sidebar { position: relative; width: min(340px, 100vw); max-width: 100%; padding-top: env(safe-area-inset-top); padding-bottom: env(safe-area-inset-bottom); }
+.sidebar-heading { display: flex; align-items: center; justify-content: space-between; padding: 8px 12px; flex-shrink: 0; gap: 8px; font-size: 13px; }
+.sidebar-heading button { padding: 0 8px; border: 1px solid var(--line); border-radius: 6px; font-size: 12px; }
+.sidebar-disclaimer { padding: 0 12px 12px; font-size: 11px; line-height: 1.5; color: var(--muted); flex-shrink: 0; }
+.sidebar-content { overscroll-behavior: contain; -webkit-overflow-scrolling: touch; overflow: auto; flex: 1; min-height: 0; padding: 20px; }
+.design-sidebar { height: 100%; display:flex; flex-direction:column; background:var(--panel); border-right:1px solid var(--line); }
+.sidebar-content section + section { margin-top:28px; padding-top:24px; border-top:1px solid var(--line); }
+.sidebar-content p { color:var(--muted); font-size:12px; line-height:1.7; margin:12px 0; }
+.sidebar-content h2 { font-family:system-ui,sans-serif; font-size:24px; font-weight:500; line-height:1.15; margin-top:12px; }
+.sidebar-content h3 { font-size:14px; margin:12px 0; }
+.eyebrow { font-size:10px; color:var(--accent); letter-spacing:1.3px; }
+.sidebar-content section > button { width:100%; text-align:left; padding:12px; display:flex; flex-direction:column; gap:5px; border:1px solid var(--line); border-radius:8px; margin-top:8px; font-size:13px; background:#ffffff05; }
+.sidebar-content button span { color:var(--muted); font-size:11px; }
+.office-world button:disabled { opacity:.4; cursor:not-allowed; }
+.draft-counts { display:grid; grid-template-columns:1fr 1fr; gap:16px; padding:16px 0; }
+.draft-counts dt { font-size:10px; color:var(--muted); margin-bottom:4px; }
+.draft-counts dd { font-size:16px; }
+.camera-options { display:grid; grid-template-columns:1fr 1fr; gap:6px; }
+.camera-options button { text-transform:capitalize; font-size:11px; border:1px solid var(--line); border-radius:6px; }
+.camera-options [aria-pressed="true"] { background:var(--accent); color:var(--bg); }
+.scene-caption { position:absolute; left:20px; top:20px; z-index:3; display:grid; gap:6px; color:#37505b; pointer-events:none; }
+.scene-caption strong { font-size:11px; letter-spacing:2px; font-weight:500; }
+.scene-caption span { font-size:10px; }
+.scene-hint { position:absolute; bottom:14px; left:0; width:100%; text-align:center; pointer-events:none; font-size:10px; color:#425f54; }
+.avatar-label { position:absolute; top:0; left:0; z-index:2; pointer-events:none; color:#263e47; font:8px/1.1 system-ui,sans-serif; white-space:nowrap; background:none; border:0; padding:0; box-shadow:none; }
+.roster-notice { position:absolute; bottom:40px; left:12px; right:12px; z-index:4; max-width:440px; margin:auto; padding:14px; border-radius:8px; background:#fffffff2; color:#294550; font:12px/1.5 system-ui,sans-serif; }
+.roster-notice p { margin:6px 0; }.roster-notice .retry-roster { display:block; padding:8px 12px; background:#215e51; color:white; border-radius:6px; margin-top:6px; }.roster-notice a { color:#176451; display:inline-block; padding:8px 0; }
+.avatar-label span { display:block; color:#637e7b; margin-left:0; font-size:8px; max-width:105px; overflow:hidden; text-overflow:ellipsis; }
+.level-control { display:flex; gap:8px; align-items:center; font-size:11px; }
+.scene-toolbar > label { font-size:11px; display:flex; gap:6px; align-items:center; }
+.scene-toolbar > label select { min-height:44px; max-width:120px; color:var(--text); background:var(--panel); border:1px solid var(--line); border-radius:6px; padding:0 6px; }
+.level-control select { min-height:44px; max-width:130px; border:1px solid var(--line); border-radius:6px; color:var(--text); background:var(--panel); padding:0 8px; font:inherit; }
+.level-control select:focus-visible { outline:2px solid var(--accent); }
+
+@media (min-width: 768px) {
+  .draft-header { grid-template-columns: auto 1fr auto; gap: 24px; }
+  .draft-label { grid-row: 1; grid-column: 2; }
+  .menu-button { grid-column: 3; }
+}
+@media (max-height: 450px) { .draft-label { display: none; } }
