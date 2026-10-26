@@ -1,0 +1,25 @@
+name: Bug report
+description: Report a reproducible issue without private data.
+body:
+  - type: markdown
+    attributes:
+      value: 'Do not attach credentials, team/member records, private messages, screenshots of live teams, host addresses, logs or HAR files containing personal data. Use a synthetic reproduction.'
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to reproduce
+      description: Include expected and actual behavior with synthetic data.
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Versions
+      description: OS and Python/Node/Hermes versions only; omit usernames and private paths.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Safe verification evidence
+      description: Minimal sanitized error and checks run. Do not paste raw confidential logs.
