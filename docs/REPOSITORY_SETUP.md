@@ -25,6 +25,6 @@ The original publication report remains a historical account of the initial sour
 ## Deferred decisions/work
 
 - License decision resolved: the owner approved [MIT](../LICENSE). The repository foundation is complete; this is not a production release.
-- Existing activation may still change the lead's Kanban toolset; fixing it is the first future functional milestone, not part of this maintenance change.
+- Lifecycle no longer changes the lead's Kanban toolset; activation checks the requirement read-only and fails with an actionable error when it is absent (safe-onboarding milestone).
 - Guided installation, supported-version validation, real activity integration and production readiness remain unfinished.
 - No team development start is scheduled. Feature work and dispatch wait for the owner's authorization.

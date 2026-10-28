@@ -12,7 +12,7 @@ An approved visual draft and local Office team-management prototype for Hermes A
 
 This is **not a production-ready service**. Design approval does not imply security approval or verified live-agent state integration. No production rollout is scheduled here.
 
-**Agent-settings caveat:** the current lifecycle prototype can change the lead's Kanban toolset configuration. It does not yet meet the required zero-agent-settings-change contract. Read [the contract](docs/AGENT_SETTINGS_CONTRACT.md) before activation; replacing this behavior is a future release blocker, not part of repository setup.
+**Agent-settings preservation:** Office never changes an existing agent's model, provider, credentials, base identity, memory, personal skills, toolsets or schedules. Activation performs a read-only check that the lead already has the Kanban toolset enabled for the chosen platform and fails with an actionable error before any Office-owned change; it never enables or disables that toolset. Read [the contract](docs/AGENT_SETTINGS_CONTRACT.md) before activation.
 
 ## Repository status
 

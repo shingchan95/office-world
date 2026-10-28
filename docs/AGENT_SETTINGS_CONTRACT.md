@@ -10,11 +10,9 @@ Office may manage only its own registry, team boards, office layout and explicit
 
 ## Honest current status
 
-**This requirement is not fully implemented yet.** Existing `lifecycle.py` activation can enable the lead's Kanban toolset; disband/rollback may disable an access grant that Office previously added. The source is preserved in the initial snapshot, not approved as the final non-mutating design.
+The zero-agent-settings-change contract is implemented and covered by regression tests. `lifecycle.py` performs a read-only preflight of the lead's/profile's Kanban capability per platform: if the toolset is missing it raises an actionable error before any board, skill or registry mutation, and never edits configuration, restarts gateways or widens permissions. Activation, rollback, disband and disband-rollback never call enable/disable on the lead's Kanban toolset (including the historical `kanban_added_by_office` marker) and never alter credentials, model/provider, base identity, memory, personal skills, schedules, gateway or platform settings. The owner resolves prerequisites separately through Hermes' supported configuration flows.
 
-Do not activate this prototype expecting an agent-settings-preservation guarantee. No lifecycle refactor is performed by repository setup.
-
-## Required future behavior
+## Implemented behavior (read-only preflight)
 
 1. Detect required capabilities using a read-only preflight.
 2. If access is missing, explain the prerequisite and stop. Do not edit configuration, restart gateways or widen permissions.
