@@ -166,10 +166,6 @@ class HermesCLI:
     def archive_board(self, board_slug: str) -> None:
         self.run(["kanban", "boards", "rm", board_slug])
 
-    def set_kanban(self, profile: str, platform: str, enabled: bool) -> None:
-        verb = "enable" if enabled else "disable"
-        self.run(["tools", verb, "kanban", "--platform", platform], profile=profile)
-
     def kanban_enabled(self, profile: str, platform: str) -> bool:
         output = self.run(["tools", "list", "--platform", platform], profile=profile)
         for line in output.splitlines():
@@ -234,6 +230,14 @@ class TeamLifecycle:
                                    "directory": str(skill_dir), "skills_root": str(skills_root),
                                    "skills_root_existed": skills_root.is_dir()})
         enabled_now = self.cli.kanban_enabled(team["lead"], platform)
+        if not enabled_now:
+            raise LifecycleError(
+                f"Lead profile {team['lead']!r} does not have the Kanban toolset enabled "
+                f"on {platform!r}. Office never enables or disables Kanban on your behalf; "
+                "it only verifies the prerequisite capability before any Office-owned change. "
+                "Enable the Kanban toolset for this profile and platform through Hermes' "
+                "supported configuration flow, then retry activation."
+            )
         shared = [t for t in self.store.list_teams()
                   if t.get("status") == "active" and t.get("activation", {}).get("lead") == team["lead"]
                   and t.get("activation", {}).get("platform") == platform]
@@ -242,7 +246,8 @@ class TeamLifecycle:
                 "board_slug": team["board_slug"], "lead": team["lead"],
                 "members": team["members"], "platform": platform,
                 "member_targets": member_targets, "kanban_enabled_before": enabled_now,
-                "kanban_baseline_enabled": baseline, "kanban_toolset_will_change": not enabled_now,
+                "kanban_baseline_enabled": baseline,
+                "kanban_toolset_will_change": False,
                 "board_will_be_created": True, "skill_name": f"office-team-{slug}",
                 "guidance_will_be_added_to": [m["profile"] for m in member_targets],
                 "meeting_integration": True,
@@ -295,10 +300,12 @@ class TeamLifecycle:
                 _write_new_file(skill_file, skill_text)
                 member["created"] = True
                 self.store.update_team(slug, {"activation": activation})
-            if plan["kanban_toolset_will_change"]:
-                self.cli.set_kanban(team["lead"], platform, True)
+            # Office never enables or disables the lead's Kanban toolset; it only
+            # verifies the prerequisite capability that preview_activation already checked.
             if not self.cli.kanban_enabled(team["lead"], platform):
-                raise LifecycleError("Kanban enablement did not verify.")
+                raise LifecycleError(
+                    f"Lead {team['lead']!r} is missing the Kanban toolset on {platform!r}; "
+                    "activation cannot continue without altering protected config.")
             board = next((b for b in self.cli.boards()
                           if b.get("slug") == team["board_slug"] and not b.get("archived")), None)
             if not board or board.get("description") != _board_description(team):
@@ -342,16 +349,8 @@ class TeamLifecycle:
                             pass
                 except Exception as recovery_exc:
                     recovery_errors.append(f"skill rollback failed for {member['profile']}: {recovery_exc}")
-            shared = [t for t in self.store.list_teams()
-                      if t["slug"] != slug and t.get("status") == "active"
-                      and t.get("activation", {}).get("lead") == team["lead"]
-                      and t.get("activation", {}).get("platform") == platform]
-            if plan["kanban_toolset_will_change"] and not shared:
-                try:
-                    if self.cli.kanban_enabled(team["lead"], platform):
-                        self.cli.set_kanban(team["lead"], platform, False)
-                except Exception as recovery_exc:
-                    recovery_errors.append(f"Kanban rollback failed: {recovery_exc}")
+            # Office never disabled the lead's Kanban toolset, so activation
+            # rollback performs no write-capability restoration.
             if activation["board_created"]:
                 try:
                     owned = next((b for b in self.cli.boards()
@@ -431,11 +430,11 @@ class TeamLifecycle:
                   if t["slug"] != slug and t.get("status") == "active"
                   and t.get("activation", {}).get("lead") == activation["lead"]
                   and t.get("activation", {}).get("platform") == activation["platform"]]
-        enabled = self.cli.kanban_enabled(activation["lead"], activation["platform"])
-        disable = (not shared and not activation["kanban_baseline_enabled"] and enabled)
+        # Office never disables the lead's Kanban toolset, regardless of whether
+        # other active teams share it; disband archives only Office-owned resources.
         plan = {"slug": slug, "board_slug": team["board_slug"], "lead": activation["lead"],
                 "platform": activation["platform"], "member_targets": member_targets,
-                "archive_board": not board.get("archived"), "disable_kanban": disable,
+                "archive_board": not board.get("archived"), "disable_kanban": False,
                 "other_teams_share_kanban": bool(shared), "plan_id": ""}
         plan["plan_id"] = _canonical_hash({k: v for k, v in plan.items() if k != "plan_id"})
         return plan
@@ -461,7 +460,6 @@ class TeamLifecycle:
         activation = team["activation"]
         self.store.update_team(slug, {"status": "disbanding"})
         moved = []
-        disabled = False
         try:
             for target in plan["member_targets"]:
                 if target["already_archived"]:
@@ -486,11 +484,8 @@ class TeamLifecycle:
                     except OSError:
                         pass
                 moved.append(target)
-            if plan["disable_kanban"]:
-                self.cli.set_kanban(activation["lead"], activation["platform"], False)
-                disabled = True
-                if self.cli.kanban_enabled(activation["lead"], activation["platform"]):
-                    raise LifecycleError("Kanban disablement did not verify.")
+            # Office never disables the lead's Kanban toolset, so disband archives only
+            # Office-owned skills and board, leaving the lead's capability intact.
             if plan["archive_board"]:
                 self.cli.archive_board(team["board_slug"])
             archived_board = next((b for b in self.cli.boards()
@@ -500,11 +495,8 @@ class TeamLifecycle:
             return self.store.disband_team(slug)
         except Exception as exc:
             recovery_errors = []
-            if disabled:
-                try:
-                    self.cli.set_kanban(activation["lead"], activation["platform"], True)
-                except Exception as restore_exc:
-                    recovery_errors.append(f"toolset restoration failed: {restore_exc}")
+            # Office never disabled the lead's Kanban toolset, so disband rollback
+            # restores only Office-owned skills and never re-enables a grant.
             for target in reversed(moved):
                 try:
                     original_dir = Path(target["directory"])

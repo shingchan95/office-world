@@ -8,7 +8,7 @@ This change establishes repository rules, setup documentation, check definitions
 
 - `AGENTS.md`: authorization boundaries, source/runtime separation, honest verification and no private data in public artifacts.
 - `CONTRIBUTING.md`: local commands, pinned Node runtime, PR process and non-deploying CI policy.
-- `docs/AGENT_SETTINGS_CONTRACT.md`: release-blocking requirement to preserve existing agent settings; current lifecycle mutation is explicitly disclosed, not silently declared fixed.
+- `docs/AGENT_SETTINGS_CONTRACT.md`: release-blocking requirement to preserve existing agent settings; states the lifecycle's actual mutation status with regression-test coverage rather than silently declaring the contract met.
 - `docs/ROADMAP.md`: repository setup before onboarding, task execution, live activity and production work.
 - `.node-version` / package engines: Node 26.x for both build and direct-TypeScript tests.
 - Corrected Python minimum to 3.11 after hosted tests exposed the meeting store's use of `sqlite3.Connection.setlimit`, which is absent in Python 3.10. No application behavior was changed to conceal the incompatibility.
@@ -25,6 +25,6 @@ The original publication report remains a historical account of the initial sour
 ## Deferred decisions/work
 
 - License decision resolved: the owner approved [MIT](../LICENSE). The repository foundation is complete; this is not a production release.
-- Existing activation may still change the lead's Kanban toolset; fixing it is the first future functional milestone, not part of this maintenance change.
+- Lifecycle no longer changes the lead's Kanban toolset; activation checks the requirement read-only and fails with an actionable error when it is absent (safe-onboarding milestone).
 - Guided installation, supported-version validation, real activity integration and production readiness remain unfinished.
 - No team development start is scheduled. Feature work and dispatch wait for the owner's authorization.
